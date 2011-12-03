@@ -54,11 +54,12 @@
 				    });
 				}
 				
-				function showLyrics(lyricid) {
-				    alert(lyricid);
+				function showLyrics(lyricid,searchq) {
+					getYoutubeVideo(searchq);
 				}
 				
 				function makeCoverflow(data) {
+					console.log(data);
 				    /*console.log(ContentFlow.getNumberOfItems());
 				    if(ContentFlow.getNumberOfItems() > 0) {
 				        console.log('Many items');
@@ -68,7 +69,7 @@
     				    $('#itemcontainer img').remove();
 				    }*/
 				    for(var i = 0, c = data.length; i < c; i++) {
-				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.track_name+' by '+data[i].track.artist_name+'" />');
+				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.artist_name+' by '+data[i].track.artist_name+'" onclick="showLyrics('+data[i].track.track_id+',\''+data[i].track.track_name+' '+data[i].track.track_name+'\');" />');
 				    }
 				    $.each($('#itemcontainer img'), function(i, el) {
 				        ContentFlow.addItem(el, 'last');
