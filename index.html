@@ -3,6 +3,18 @@
 		<title>Lyrictionary</title>
 	</head>
 	<body>
-		<input type="text" speech x-webkit-speech />
+		<input type="text" speech x-webkit-speech>
+		<script type="text/javascript">
+			if(navigator.onLine) {
+				var input = document.querySelector('[x-webkit-speech]');
+				//input.addEventListener('change', inputChange, false);
+				input.addEventListener('webkitspeechchange', inputChange, false);
+				function inputChange(e) {
+					if(e.results && e.type === 'webkitspeechchange') {
+						console.log(e);
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
