@@ -13,7 +13,7 @@
 		<script type="text/javascript">
 		    var ContentFlow = new ContentFlow('ContentFlow');
 			if(navigator.onLine) {
-				var musixmatchURL = 'http://api.musixmatch.com/ws/1.1/track.search?f_has_lyrics=1&f_has_subtitles=1&apikey=72972dafed8a3b90df4e80d022e47642';
+				var musixmatchURL = 'http://api.musixmatch.com/ws/1.1/track.search?f_has_subtitle=1&apikey=72972dafed8a3b90df4e80d022e47642';
 				var input = document.querySelector('[x-webkit-speech]');
 				//input.addEventListener('change', inputChange, false);
 				input.addEventListener('webkitspeechchange', function (e) {
@@ -54,10 +54,6 @@
 				    });
 				}
 				
-				function showLyrics(lyricid,searchq) {
-					getYoutubeVideo(searchq);
-				}
-				
 				function makeCoverflow(data) {
 				    if(ContentFlow.getNumberOfItems() > 0) {
 				        $.each($('.flow .item'), function(i, el) {
@@ -65,43 +61,35 @@
     				    });
 				    }
 				    for(var i = 0, c = data.length; i < c; i++) {
-				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.artist_name+' by '+data[i].track.artist_name+'" onclick="showLyrics('+data[i].track.track_id+',\''+data[i].track.track_name+' '+data[i].track.track_name+'\');" />');
+				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.artist_name+' by '+data[i].track.artist_name+'" href="#" onclick="getYoutubeVideo('+data[i].track.track_id+',\''+data[i].track.artist_name+' '+data[i].track.track_name+'\'); return false;" />');
 				    }
 				    $.each($('#itemcontainer img'), function(i, el) {
 				        ContentFlow.addItem(el, 'last');
 				    });
 				}
 				
-				function getYoutubeVideo(searchq) {
-					$.getJSON('http://gdata.youtube.com/feeds/api/videos?orderby=relevance&max-results=10&v=2&category=Music&format=5&client=playlistify&q='+searchq+'&alt=json-in-script&callback=?', function(data) {
-							console.log(data);
-							if(!data) {
-								
-								alert('no data from youtube');
-								
-							} else {	
-						  var urlembed = data.feed.entry[0].content.src;
-							}	
-							
-							jwplayer('videocontainer').setup({
-						    'flashplayer': 'jwplayer/player.swf',
-						    'id': 'videocontainer',
-						    'width': '480',
-						    'height': '270',
-						    'file': urlembed,
-						    'plugins': {
-						       'captions-2': {
-						           'file': 'captions.xml'
-						       }
-						    }
-						  });
-							console.log(urlembed);		        	
-			        	
-					});
-					
-					
-			
-			
+				function getYoutubeVideo(lyricid, searchq) {
+				    $.getJSON('http://gdata.youtube.com/feeds/api/videos?orderby=relevance&max-results=10&v=2&category=Music&format=5&client=playlistify&q=' + searchq + '&alt=json-in-script&callback=?', function(data) {
+				        console.log(data);
+				        if(!data) {
+				            alert('no data from youtube');
+				        } else {
+				            var urlembed = data.feed.entry[0].content.src;
+				        }
+				        jwplayer('videocontainer').setup({
+				            'flashplayer': 'jwplayer/player.swf',
+				            'id': 'videocontainer',
+				            'width': '480',
+				            'height': '270',
+				            'file': urlembed,
+				            'plugins': {
+				                'captions-2': {
+				                    'file': 'http://roelandp.nl/devdev/musichackday/getdfxp.php?trackid=' + lyricid
+				                }
+				            }
+				        });
+				        console.log(urlembed);
+				    });
 				}
 			}
 		</script>
