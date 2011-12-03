@@ -8,77 +8,69 @@
 	<body>
 		<input type="text" speech x-webkit-speech>
 		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-		<!-- <script src="http://www.jeremyckahn.com/blog/codebucket/flowbox/js/cflow/contentflow.js"></script> -->
+		<script src="contentflow/contentflow.js"></script>
 		<script type="text/javascript">
+		    var ContentFlow = new ContentFlow('ContentFlow');
 			if(navigator.onLine) {
 				var musixmatchURL = 'http://api.musixmatch.com/ws/1.1/track.search?f_has_lyrics=1&apikey=72972dafed8a3b90df4e80d022e47642';
 				var input = document.querySelector('[x-webkit-speech]');
 				//input.addEventListener('change', inputChange, false);
-				input.addEventListener('webkitspeechchange', inputChange, false);
-				
-				
-				function inputChange(e) {
+				input.addEventListener('webkitspeechchange', function (e) {
 					if(e.results && e.type === 'webkitspeechchange') {
 						var searchTerm = encodeURI(e.results[0].utterance);
 						if(searchTerm.length > 0) {
-							getMusixLyrics(searchTerm);
+						    $.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
+						        console.log(data);
+						        if(data.message.header.status_code == "200") {
+						            if(data.message.body.track_list) {
+						                makeCoverflow(data.message.body.track_list);
+						            }
+						        }
+						    });
+							//getMusixLyrics(searchTerm);
 						}
 					}
-				}
+				}, false);
 				
 				function getMusixLyrics(searchTerm) {
-					$.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
-								console.log(data);
-								
-								
-									// most probs we should do some error checking first?
-
-									if(data.message.header.status_code == "200") {
-								
-										// data message body track list kijken if exist 
-										
-										if(data.message.body.track_list) {
-											makeCoverflow(data.message.body.track_list);										
-										}
-									
-									}
-
-							});
+				    $.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
+				        if(data.message.header.status_code == "200") {
+				            if(data.message.body.track_list) {
+				                makeCoverflow(data.message.body.track_list);
+				            }
+				        }
+				    });
 				}
 				
 				function showLyrics(lyricid) {
-					
-					alert(lyricid);
-					
+				    alert(lyricid);
 				}
 				
 				function makeCoverflow(data) {
-				
-					console.log(data);
-					var list = $("#flow-container");
-					
-					list.html('');
-					
-					var tracklistcount = data.length;
-					
-					for (var i = 0; i < tracklistcount; i++) {
-						list.append('<a href="javascript:void(0)" onclick="showLyrics('+data[i].track.lyrics_id+');" class="item"><img class="content" src="'+data[i].track.album_coverart_100x100+'" /><div class="caption">'+data[i].track.track_name+' by '+data[i].track.artist_name+'</div></a>');
-					}
-					
-					
-					
+				    /*console.log(ContentFlow.getNumberOfItems());
+				    if(ContentFlow.getNumberOfItems() > 0) {
+				        console.log('Many items');
+				        $.each($('#itemcontainer img'), function(i, el) {
+    				        console.log(ContentFlow.rmItem(el));
+    				    });
+    				    $('#itemcontainer img').remove();
+				    }*/
+				    for(var i = 0, c = data.length; i < c; i++) {
+				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.track_name+' by '+data[i].track.artist_name+'" />');
+				    }
+				    $.each($('#itemcontainer img'), function(i, el) {
+				        ContentFlow.addItem(el, 'last');
+				    });
 				}
-			
 			}
-			
-			
 		</script>
 		<a href="javascript:void(0);" onclick="getMusixLyrics('neuken');">test</a>
-		<div id="flow" class="ContentFlow">
-		            <div id="flow-container" class="flow">
-		            </div>
+		<div id="ContentFlow" class="ContentFlow">
+		    <div class="loadIndicator"><div class="indicator"></div></div>
+		    <div class="flow"></div>
+		    <div class="globalCaption"></div>
+		    <div class="scrollbar"><div class="slider"><div class="position"></div></div></div>
 		</div>
-		<div ></div>
+		<div id="itemcontainer" style="visibility:hidden;"></div>
 	</body>
 </html>
