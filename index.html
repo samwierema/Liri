@@ -33,17 +33,6 @@
 					}
 				}, false);
 				
-				function sayThis(text) {
-					
-					// start for 
-					
-					var a = document.createElement('audio');
-      				a.src = 'http://translate.google.com/translate_tts?tl=en&q=' + escape(phrase);
-      				a.load();
-      				$('body').append(a);
-						
-				}
-				
 				function getMusixLyrics(searchTerm) {
 				    $.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
 				        if(data.message.header.status_code == "200") {
@@ -78,6 +67,7 @@
 				        }
 				        jwplayer('videocontainer').setup({
 				            'flashplayer': 'jwplayer/player.swf',
+				            'autostart': true,
 				            'id': 'videocontainer',
 				            'width': '480',
 				            'height': '270',
