@@ -1,17 +1,27 @@
 <html>
 	<head>
 		<title>Lyrictionary</title>
+		<style type="text/css">
+			input { width: 50%; height: 30%; }
+		</style>
 	</head>
 	<body>
 		<input type="text" speech x-webkit-speech>
+		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript">
 			if(navigator.onLine) {
+				var musixmatchURL = 'http://api.musixmatch.com/ws/1.1/track.search?f_has_lyrics=1&apikey=72972dafed8a3b90df4e80d022e47642';
 				var input = document.querySelector('[x-webkit-speech]');
 				//input.addEventListener('change', inputChange, false);
 				input.addEventListener('webkitspeechchange', inputChange, false);
 				function inputChange(e) {
 					if(e.results && e.type === 'webkitspeechchange') {
-						console.log(e);
+						var searchTerm = encodeURI(e.results[0].utterance);
+						if(searchTerm.length > 0) {
+							$.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
+								console.log(data);
+							});
+						}
 					}
 				}
 			}
