@@ -9,6 +9,7 @@
 		<input type="text" speech x-webkit-speech>
 		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="jwplayer/jwplayer.js"></script>
 		<!-- <script src="http://www.jeremyckahn.com/blog/codebucket/flowbox/js/cflow/contentflow.js"></script> -->
 		<script type="text/javascript">
 			if(navigator.onLine) {
@@ -17,7 +18,6 @@
 				//input.addEventListener('change', inputChange, false);
 				input.addEventListener('webkitspeechchange', inputChange, false);
 				
-				
 				function inputChange(e) {
 					if(e.results && e.type === 'webkitspeechchange') {
 						var searchTerm = encodeURI(e.results[0].utterance);
@@ -25,6 +25,17 @@
 							getMusixLyrics(searchTerm);
 						}
 					}
+				}
+				
+				function sayThis(text) {
+					
+					// start for 
+					
+					var a = document.createElement('audio');
+      				a.src = 'http://translate.google.com/translate_tts?tl=en&q=' + escape(phrase);
+      				a.load();
+      				$('body').append(a);
+						
 				}
 				
 				function getMusixLyrics(searchTerm) {
@@ -47,9 +58,9 @@
 							});
 				}
 				
-				function showLyrics(lyricid) {
+				function showLyrics(lyricid,artistdata) {
 					
-					alert(lyricid);
+					getYoutubeVideo(artistdata);
 					
 				}
 				
@@ -63,22 +74,59 @@
 					var tracklistcount = data.length;
 					
 					for (var i = 0; i < tracklistcount; i++) {
-						list.append('<a href="javascript:void(0)" onclick="showLyrics('+data[i].track.lyrics_id+');" class="item"><img class="content" src="'+data[i].track.album_coverart_100x100+'" /><div class="caption">'+data[i].track.track_name+' by '+data[i].track.artist_name+'</div></a>');
+						list.append('<a href="javascript:void(0)" onclick="showLyrics('+data[i].track.lyrics_id+',\''+data[i].track.track_name+'  '+data[i].track.artist_name+'\');" class="item"><img class="content" src="'+data[i].track.album_coverart_100x100+'" /><div class="caption">'+data[i].track.track_name+' by '+data[i].track.artist_name+'</div></a>');
 					}
 					
 					
 					
 				}
+				
+				
+				function getYoutubeVideo(searchq) {
+					$.getJSON('http://gdata.youtube.com/feeds/api/videos?orderby=relevance&max-results=10&v=2&category=Music&format=5&client=playlistify&q='+searchq+'&alt=json-in-script&callback=?', function(data) {
+							console.log(data);
+							if(!data) {
+								
+								alert('no data from youtube');
+								
+							} else {	
+						  var urlembed = data.feed.entry[0].content.src;
+							}	
+							
+							jwplayer('videocontainer').setup({
+						    'flashplayer': 'jwplayer/player.swf',
+						    'id': 'videocontainer',
+						    'width': '480',
+						    'height': '270',
+						    'file': urlembed,
+						    'plugins': {
+						       'captions-2': {
+						           'file': 'captions.xml'
+						       }
+						    }
+						  });
+							console.log(urlembed);		        	
+			        	
+					});
+					
+					
+			
+			
+				}
+		
+			
 			
 			}
 			
 			
 		</script>
-		<a href="javascript:void(0);" onclick="getMusixLyrics('neuken');">test</a>
+		<a href="javascript:void(0);" onclick="getMusixLyrics('neuken'); sayThis('hello');">test</a>
 		<div id="flow" class="ContentFlow">
 		            <div id="flow-container" class="flow">
 		            </div>
 		</div>
 		<div ></div>
+		
+		<p id="videocontainer">The player will be placed here</p>
 	</body>
 </html>
