@@ -8,7 +8,7 @@
  */
 
 .ContentFlow {
-  height: 240px;
+  height: 260px;
 }
 
     /* ----- styling of items ----- */
@@ -78,10 +78,11 @@
     .ContentFlow .globalCaption {
         text-align: center;
         font-weight: bold;
-        color: white;
-        font-size: 14px;
+        color: #202020;
+        font-size: 16px;
         height: 20px;
         margin: 2em auto;
+        text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.4);
     }
         .ContentFlow .globalCaption .caption {
         }
