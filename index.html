@@ -14,7 +14,7 @@
 	    <div id="liri">
 
 	    	<div id="inputcontainer">
-	    		<h1>Hi, I am Liri, how may I help you?</h1>
+	    		<h1>Hi, I am <strong>Liri</strong>, how may I help you?</h1>
 	    	    <div id="text-input">
 	    	    
 	    	        <input type="text" speech x-webkit-speech />
@@ -113,6 +113,13 @@
 			function showVideo(lyricid, searchq) {
 				hideAll();
 				$('#video').slideDown(100, getYoutubeVideo(lyricid, searchq));
+			}
+			
+			function sayThis(file) {
+			    audio = document.createElement('audio');
+			    audio.src = file;
+			    audio.load();
+			    audio.play();
 			}
 		</script>
 	</body>
