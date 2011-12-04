@@ -50,11 +50,20 @@
 						            if(data.message.body.track_list) {
 						            	
 						            	if(data.message.body.track_list.length > 0) {
+						            		
+						            	sayThis('audio/siri-hasresults.mp3');
+						            	var phrase = 'I found '+data.message.body.track_list.length+' results on musics-match';
+						            	sayThis('http://translate.google.com/translate_tts?tl=en&q=' + escape(phrase));
+						            						
 						                showResults(data.message.body.track_list);
 						            	} else {
 						            		
+						            		sayThis('audio/siri-no-results.mp3');
+						            		
 						            		$("#inputcontainer").effect( "shake", {times:6}, 100 );	
 						            		$('#inputcontainer input').val('');
+						            		
+						            		
 						            	}
 						            }
 						        }
@@ -114,6 +123,7 @@
 			
 			function showAsk() {
 				hideAll();
+				sayThis('audio/siri-readyforyou.mp3');
 				$('#inputcontainer').slideDown();
 			}
 			
