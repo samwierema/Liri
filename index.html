@@ -10,10 +10,16 @@
 		<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300,700' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
+		<img src="liri-start-icon.png" onclick="showAsk();" id="homeimg" />
 	    <div id="liri">
-    	    <div id="text-input">
-    	        <input type="text" speech x-webkit-speech />
-    	    </div>
+
+	    	<div id="inputcontainer">
+	    		<h1>Hi, I am Liri, how may I help you?</h1>
+	    	    <div id="text-input">
+	    	    
+	    	        <input type="text" speech x-webkit-speech />
+	    	    </div>
+	    	 </div>
     		<div id="coverflow">
     		    <div id="ContentFlow" class="ContentFlow">
         		    <div class="flow"></div>
@@ -21,9 +27,9 @@
         		</div>
         		<div id="itemcontainer" style="visibility:hidden;"></div>
         	</div>
-        	<!--<div id="video">
+        	<div id="video">
         	    <p id="videocontainer">The player will be placed here</p>
-        	</div>-->
+        	</div>
         </div>
     	<script type="text/javascript">
 		    var ContentFlow = new ContentFlow('ContentFlow');
@@ -51,8 +57,14 @@
 				function getMusixLyrics(searchTerm) {
 				    $.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
 				        if(data.message.header.status_code == "200") {
+				        	
+				        	
 				            if(data.message.body.track_list) {
-				                makeCoverflow(data.message.body.track_list);
+				            	console.log(data.message.body.track_list);	
+				            	if(data.message.body.track_list.length > 0) {
+				            		showResults(data.message.body.track_list);
+				                	
+				            	}
 				            }
 				        }
 				    });
@@ -97,6 +109,32 @@
 				        console.log(urlembed);
 				    });
 				}
+			}
+			
+			function hideAll() {
+				$('#homeimg').slideUp();
+				$('#inputcontainer').slideUp();
+				$('#coverflow').slideUp();
+					
+			}
+			
+			
+			function showAsk() {
+				hideAll();
+				$('#inputcontainer').slideDown();
+			}
+			
+			function showResults(data) {
+				hideAll();
+				$('#coverflow').slideDown(100,makeCoverflow(data));
+				
+			}
+			
+			function showVideo() {
+				
+				hideAll();
+				$('#videocontainer').slideDown();
+				
 			}
 		</script>
 	</body>

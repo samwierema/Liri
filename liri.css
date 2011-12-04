@@ -1,6 +1,47 @@
-body, input { font-family: 'Signika Negative', sans-serif !important; }
+body, input { font-family: 'Signika Negative', sans-serif !important; background:url('applelinen.png'); }
+
+html {overflow:hidden;}
+
+
 
 #liri { width: 600px; margin: 0 auto; }
 
-#liri #text-input { width: 526px; margin: 20px auto 15px; }
-#liri #text-input input { width: 500px; height: 60px; font-size: 38px; padding: 4px 12px; color: #404040; }
+#liri #text-input { 
+	background:url('mini_liri.png') no-repeat 484px 46px transparent; 
+	border:0px solid red; 
+	height:97px; 
+	padding:40px; 
+	
+}
+
+
+#liri #text-input input {  
+	margin: 20px auto 15px; 
+	background:transparent; 
+	height:77px; 
+	width:500px; 
+	border:none; 
+	height: 60px; 
+	font-size: 38px; 
+	padding: 4px 12px; 
+	color: #404040; 
+}
+
+#liri #inputcontainer, #coverflow, #videocontainer {
+	-moz-border-radius: 15px; 
+	border-radius: 15px; 
+	-moz-box-shadow: 0 0 5px #333; 
+	-webkit-box-shadow: 0 0 5px #333; 
+	box-shadow: 0 0 5px #333; 
+	background:#fff;
+	text-align:center;
+	margin-top:150px;
+	display:none;
+}
+
+#inputcontainer h1 {
+	font-family: helvetica neue, helvetica;
+	font-weight: 100;	
+	padding-top: 40px;
+	font-size: 40px;
+}
