@@ -1,8 +1,6 @@
 body, input { font-family: 'Signika Negative', sans-serif !important; background:url('applelinen.png'); }
 
-html {overflow:hidden;}
-
-
+html { overflow: hidden; }
 
 #liri { width: 600px; margin: 0 auto; }
 
@@ -27,17 +25,21 @@ html {overflow:hidden;}
 	color: #404040; 
 }
 
-#liri #inputcontainer, #coverflow, #videocontainer {
+#liri #inputcontainer, #coverflow, #video {
+  position: relative;
 	-moz-border-radius: 15px; 
 	border-radius: 15px; 
 	-moz-box-shadow: 0 0 5px #333; 
 	-webkit-box-shadow: 0 0 5px #333; 
-	box-shadow: 0 0 5px #333; 
-	background:#fff;
-	text-align:center;
-	margin-top:150px;
-	display:none;
+	box-shadow: 0 0 5px #333;
+	background: #fff;
+	text-align: center;
+	margin-top: 150px;
+	min-height: 260px;
+	display: none;
 }
+
+/*#coverflow { display: block; margin-left: -9999px; height: 260px; }*/
 
 #inputcontainer h1 {
 	font-family: helvetica neue, helvetica;

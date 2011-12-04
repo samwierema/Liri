@@ -28,7 +28,7 @@
         		<div id="itemcontainer" style="visibility:hidden;"></div>
         	</div>
         	<div id="video">
-        	    <p id="videocontainer">The player will be placed here</p>
+        	    <div id="videocontainer"></div>
         	</div>
         </div>
     	<script type="text/javascript">
@@ -45,30 +45,13 @@
 						        console.log(data);
 						        if(data.message.header.status_code == "200") {
 						            if(data.message.body.track_list) {
-						                makeCoverflow(data.message.body.track_list);
+						                showResults(data.message.body.track_list);
 						            }
 						        }
 						    });
-							//getMusixLyrics(searchTerm);
 						}
 					}
 				}, false);
-				
-				function getMusixLyrics(searchTerm) {
-				    $.getJSON(musixmatchURL + '&q_lyrics=' + searchTerm + '&format=JSONP&callback=?', function(data) {
-				        if(data.message.header.status_code == "200") {
-				        	
-				        	
-				            if(data.message.body.track_list) {
-				            	console.log(data.message.body.track_list);	
-				            	if(data.message.body.track_list.length > 0) {
-				            		showResults(data.message.body.track_list);
-				                	
-				            	}
-				            }
-				        }
-				    });
-				}
 				
 				function makeCoverflow(data) {
 				    if(ContentFlow.getNumberOfItems() > 0) {
@@ -78,7 +61,7 @@
     				    $('.globalCaption').empty();
 				    }
 				    for(var i = 0, c = data.length; i < c; i++) {
-				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.track_name+' by '+data[i].track.artist_name+'" href="#" onclick="getYoutubeVideo('+data[i].track.track_id+',\''+data[i].track.artist_name+' '+data[i].track.track_name+'\'); return false;" />');
+				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.track_name+' by '+data[i].track.artist_name+'" href="#" onclick="showVideo('+data[i].track.track_id+',\''+data[i].track.artist_name+' '+data[i].track.track_name+'\'); return false;" />');
 				    }
 				    $.each($('#itemcontainer img'), function(i, el) {
 				        ContentFlow.addItem(el, 'last');
@@ -115,9 +98,7 @@
 				$('#homeimg').slideUp();
 				$('#inputcontainer').slideUp();
 				$('#coverflow').slideUp();
-					
 			}
-			
 			
 			function showAsk() {
 				hideAll();
@@ -126,15 +107,12 @@
 			
 			function showResults(data) {
 				hideAll();
-				$('#coverflow').slideDown(100,makeCoverflow(data));
-				
+				$('#coverflow').slideDown(100,makeCoverflow(data));	
 			}
 			
-			function showVideo() {
-				
+			function showVideo(lyricid, searchq) {
 				hideAll();
-				$('#videocontainer').slideDown();
-				
+				$('#video').slideDown(100, getYoutubeVideo(lyricid, searchq));
 			}
 		</script>
 	</body>
