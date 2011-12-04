@@ -135,6 +135,8 @@
 			function showVideo(lyricid, searchq) {
 				hideAll();
 				$('#video').slideDown(100, getYoutubeVideo(lyricid, searchq));
+				var phrase = 'Now Playing '+searchq;
+				sayThis('http://translate.google.com/translate_tts?tl=en&q=' + escape(phrase));
 			}
 			
 			function resetLiri() {
