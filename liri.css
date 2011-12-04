@@ -38,6 +38,9 @@ html { overflow: hidden; }
 	min-height: 260px;
 	display: none;
 }
+#video {
+	padding:20px;	
+}
 
 /*#coverflow { display: block; margin-left: -9999px; height: 260px; }*/
 
