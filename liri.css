@@ -1,0 +1,4 @@
+#liri { width: 600px; margin: 0 auto; }
+
+#liri #text-input { width: 526px; margin: 20px auto 15px; }
+#liri #text-input input { width: 500px; height: 60px; font-size: 38px; padding: 4px 12px; color: #404040; }

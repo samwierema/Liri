@@ -1,16 +1,32 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Lyrictionary</title>
-		<style type="text/css">
-			input { width: 50%; height: 30%; }
-		</style>
-	</head>
-	<body>
-		<input type="text" speech x-webkit-speech>
+		<link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="liri.css" />
 		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<script src="contentflow/contentflow.js"></script>
-		<script type="text/javascript" src="jwplayer/jwplayer.js"></script>
-		<script type="text/javascript">
+		<script src="jwplayer/jwplayer.js"></script>
+	</head>
+	<body>
+	    <div id="liri">
+    	    <div id="text-input">
+    	        <input type="text" speech x-webkit-speech />
+    	    </div>
+    		<div id="coverflow">
+    		    <div id="ContentFlow" class="ContentFlow">
+        		    <div class="loadIndicator"><div class="indicator"></div></div>
+        		    <div class="flow"></div>
+        		    <div class="globalCaption"></div>
+        		    <div class="scrollbar"><div class="slider"></div></div>
+        		</div>
+        		<div id="itemcontainer" style="visibility:hidden;"></div>
+        	</div>
+        	<!--<div id="video">
+        	    <p id="videocontainer">The player will be placed here</p>
+        	</div>-->
+        </div>
+    	<script type="text/javascript">
 		    var ContentFlow = new ContentFlow('ContentFlow');
 			if(navigator.onLine) {
 				var musixmatchURL = 'http://api.musixmatch.com/ws/1.1/track.search?f_has_subtitle=1&apikey=72972dafed8a3b90df4e80d022e47642';
@@ -50,7 +66,7 @@
     				    });
 				    }
 				    for(var i = 0, c = data.length; i < c; i++) {
-				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.artist_name+' by '+data[i].track.artist_name+'" href="#" onclick="getYoutubeVideo('+data[i].track.track_id+',\''+data[i].track.artist_name+' '+data[i].track.track_name+'\'); return false;" />');
+				        $('#itemcontainer').append('<img class="item" src="'+data[i].track.album_coverart_100x100+'" title="'+data[i].track.artist_name+' by '+data[i].track.track_name+'" href="#" onclick="getYoutubeVideo('+data[i].track.track_id+',\''+data[i].track.artist_name+' '+data[i].track.track_name+'\'); return false;" />');
 				    }
 				    $.each($('#itemcontainer img'), function(i, el) {
 				        ContentFlow.addItem(el, 'last');
@@ -83,14 +99,5 @@
 				}
 			}
 		</script>
-		<a href="javascript:void(0);" onclick="getMusixLyrics('neuken');">test</a>
-		<div id="ContentFlow" class="ContentFlow">
-		    <div class="loadIndicator"><div class="indicator"></div></div>
-		    <div class="flow"></div>
-		    <div class="globalCaption"></div>
-		    <div class="scrollbar"><div class="slider"><div class="position"></div></div></div>
-		</div>
-		<p id="videocontainer">The player will be placed here</p>
-		<div id="itemcontainer" style="visibility:hidden;"></div>
 	</body>
 </html>
